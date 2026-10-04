@@ -2,18 +2,20 @@
 
 A computer vision-based perception system developed for the **TEKNOFEST Robotaksi Passenger Autonomous Vehicle Competition**.
 
-The system combines classical computer vision and YOLO-based object detection to process camera images and provide lane information, traffic sign and traffic light detection, obstacle detection, and safety-related outputs.
+The system combines classical computer vision and YOLO-based object detection to process camera images and provide lane information, road-object detection, and safety-related outputs.
 
 ## Project Overview
 
 The perception pipeline takes a camera frame as input and produces structured perception data for an autonomous driving system.
 
-The system performs two main tasks:
+The system combines:
 
 * **Lane detection** using OpenCV
-* **Object detection** using a trained YOLO model
-
-The detected information is combined with safety rules to generate outputs such as lane offset, traffic information, emergency stop status, and speed control.
+* **YOLO-based object detection**
+* **Traffic sign and traffic light processing**
+* **Obstacle detection**
+* **Safety and speed logic**
+* **ROS integration**
 
 ## Perception Pipeline
 
@@ -30,7 +32,7 @@ The detected information is combined with safety rules to generate outputs such 
                    │       ┌───┴──────────────┐
                    │       │                  │
                    ▼       ▼                  ▼
-             Lane Offset  Traffic Signs   Obstacles
+             Lane Offset  Road Signs      Obstacles
              Lane Angle  Traffic Lights   Vehicles
                    │       │                  │
                    └───────┴──────────────────┘
@@ -79,4 +81,49 @@ The project uses a trained YOLO model located at:
 models/best.pt
 ```
 
-The dataset contains **21 classes** related to road
+The dataset contains **21 classes** related to road signs, traffic lights, and road environments.
+
+Dataset classes include:
+
+```text
+bus_stop
+do_not_enter
+do_not_stop
+do_not_turn_l
+do_not_turn_r
+do_not_u_turn
+enter_left_lane
+green_light
+left_right_lane
+no_parking
+parking
+ped_crossing
+ped_zebra_cross
+railway_crossing
+red_light
+stop
+t_intersection_l
+traffic_light
+u_turn
+warning
+yellow_light
+```
+
+The dataset was prepared using Roboflow.
+
+### Traffic Sign Processing
+
+The perception pipeline processes supported traffic sign classes and includes safety handling for stop signs.
+
+For example:
+
+```text
+STOP → Emergency Stop
+```
+
+### Traffic Light Processing
+
+Detected traffic light regions are processed to estimate their current state.
+
+The
+
